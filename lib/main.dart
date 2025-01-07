@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
             defaultTransition: Transition.topLevel,
             transitionDuration: const Duration(milliseconds: 500),
             getPages: AppRoutes.page,
-            initialRoute: AppRoutes.userHomeScreen,
+            initialRoute: AppRoutes.bottomNavBar,
           );
         });
   }

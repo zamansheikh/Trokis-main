@@ -1,27 +1,41 @@
-// import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-// void main() {
-//   // Replace 'your_token' with your actual authentication token
-//   final String token = 'your_token';
+class SocketService {
+  late IO.Socket _socket;
+  final String _serverUrl = 'http://10.0.80.110:3000';
+  final String _token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywidXNlcm5hbWUiOiJ0ZXN0dXNlciIsImlhdCI6MTczNjI0NjIyMiwiZXhwIjoxNzM2MjQ5ODIyfQ.mmszenMkBRS_mqDZOx9_dv_xPj45JKTq2VSnfVJZnKU';
 
-//   // Configure the Socket options with the authorization header
-//   final options = IO.OptionBuilder()
-//       .setTransports(['websocket']) // optional, set transports if needed
-//       .setExtraHeaders({'Authorization': 'Bearer $token'}) // set authorization header
-//       .build();
+  void connect() {
+    final options = IO.OptionBuilder()
+        .setTransports(['websocket']) // optional, set transports if needed
+        .setExtraHeaders({'auth': 'Bearer $_token'}) // set authorization header
+        .build();
 
-//   // Create a SocketIO instance with the options
-//   final socket = IO.io('http://localhost:3000', options);
+    try {
+      _socket = IO.io(_serverUrl, options);
 
-//   // Listen for connection events
-//   socket.onConnect((_) {
-//     print('connected');
-//     socket.emit('msg', 'test message'); // emit an event after connection
-//   });
+      _socket.onConnect((_) {
+        print('Connected to server');
+      });
 
-//   socket.on('event', (data) => print(data)); // listen for events from server
+      _socket.onConnectError((err) => print('Connection Error: $err'));
+      _socket.onError((err) => print('Error: $err'));
+      _socket.onDisconnect((_) => print('Disconnected'));
+    } catch (e) {
+      print("Socket init error: $e");
+    }
+  }
 
-//   socket.onDisconnect((_) => print('disconnected'));
+  void sendMessage(String message) {
+    _socket.emit('chat message', message);
+  }
 
-//   // ... rest of your code
-// }
+  void onChatMessage(Function(String) callback) {
+    _socket.on('chat message', (data) => callback(data));
+  }
+
+  void disconnect() {
+    _socket.disconnect();
+  }
+}

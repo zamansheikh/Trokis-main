@@ -1,9 +1,15 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:trokis/core/exports/exports.dart';
+import 'package:trokis/presentations/screens/user/user_home/home_widget/shipping_widget.dart';
 
-class UserHomeScreen extends StatelessWidget {
+class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({super.key});
 
+  @override
+  State<UserHomeScreen> createState() => _UserHomeScreenState();
+}
+
+class _UserHomeScreenState extends State<UserHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,163 +63,102 @@ class UserHomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: 1,
-        onTap: (p0) {},
-      ),
-    );
-  }
-}
-
-class CustomBottomNavigationBar extends StatelessWidget {
-  final int selectedIndex;
-  final Function(int) onTap;
-
-  const CustomBottomNavigationBar({
-    super.key,
-    required this.selectedIndex,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(50), // Rounded corners
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.2),
-            spreadRadius: 2,
-            blurRadius: 5,
-          ),
-        ],
-      ),
-      margin: const EdgeInsets.all(16), // Margin from screen edges
-      padding: const EdgeInsets.symmetric(vertical: 10), // Inner padding
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildNavSelectedItem(
-            context,
-            iconPath: "assets/icons/nav1.svg",
-            label: "Home",
-            isLabelHidden: true,
-            index: 0,
-          ),
-          _buildNavItem(
-            context,
-            iconPath: "assets/icons/nav1.svg",
-            label: "Search",
-            isLabelHidden: true,
-            index: 1,
-          ),
-          _buildNavItem(
-            context,
-            iconPath: "assets/icons/nav1.svg",
-            label: "Add",
-            isLabelHidden: true,
-            index: 2,
-          ),
-          _buildNavItem(
-            context,
-            iconPath: "assets/icons/nav1.svg",
-            label: "Favorite",
-            isLabelHidden: true,
-            index: 3,
-          ),
-          _buildNavItem(
-            context,
-            iconPath: "assets/icons/nav1.svg",
-            label: "Profile",
-            isLabelHidden: true,
-            index: 4,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNavItem(
-    BuildContext context, {
-    required String iconPath,
-    required String label,
-    required int index,
-    bool isLabelHidden = false,
-  }) {
-    final bool isSelected = selectedIndex == index;
-
-    return Container(
-      decoration: BoxDecoration(),
-      child: GestureDetector(
-        onTap: () => onTap(index),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              iconPath,
-              height: 24,
-              colorFilter: ColorFilter.mode(
-                isSelected ? Colors.blue : Colors.grey,
-                BlendMode.srcIn,
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withValues(alpha: 0.2),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                          ),
+                        ],
+                      ),
+                      height: 100,
+                      width: double.infinity,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            "assets/icons/bid.svg",
+                            height: 30,
+                          ),
+                          CustomText(
+                            text: "Bid",
+                            fontsize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 20), // Add spacing between the containers
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withValues(alpha: 0.2),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                          ),
+                        ],
+                      ),
+                      height: 100,
+                      width: double.infinity,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            "assets/icons/customer_support.svg",
+                            height: 30,
+                          ),
+                          CustomText(
+                            text: "Bid",
+                            fontsize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 4),
-            if (!isLabelHidden)
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                  color: isSelected ? Colors.blue : Colors.grey,
-                ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: CustomText(
+                      text: "Recent Shipping",
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  ShippingCard(
+                    from: "Banasree, Dhaka",
+                    to: "Rupatoli, Barishal",
+                    status: "Parcel Is On The Way To Delivery",
+                  ),
+                  SizedBox(height: 10),
+                  ShippingCard(
+                    from: "Banasree, Dhaka",
+                    to: "Rupatoli, Barishal",
+                    status: "Parcel Is On The Way To Delivery",
+                  ),
+                ],
               ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildNavSelectedItem(
-    BuildContext context, {
-    required String iconPath,
-    required String label,
-    required int index,
-    bool isLabelHidden = false,
-  }) {
-    final bool isSelected = selectedIndex == index;
-
-    return GestureDetector(
-      onTap: () => onTap(index),
-      child: Container(
-        padding: EdgeInsets.all(5),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20), color: Colors.white),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              iconPath,
-              height: 24,
-              colorFilter: ColorFilter.mode(
-                isSelected ? Colors.blue : Colors.grey,
-                BlendMode.srcIn,
-              ),
-            ),
-            const SizedBox(height: 4),
-            if (!isLabelHidden)
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                  color: isSelected ? Colors.blue : Colors.grey,
-                ),
-              ),
+            )
           ],
         ),
       ),

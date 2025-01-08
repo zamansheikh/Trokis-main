@@ -93,15 +93,19 @@ class _ConversationListPageState extends State<ConversationListPage> {
               formattedDate,
               style: const TextStyle(fontSize: 12, color: Colors.grey),
             ),
-            onTap: () {
+            onTap: () async {
               // Navigate to conversation detail page
-              Navigator.push(
+              await Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
                       ConversationDetailPage(conversation: conversation),
                 ),
-              );
+              ).then((value) {
+                if (true) {
+                  fetchConversations();
+                }
+              });
             },
           );
         },

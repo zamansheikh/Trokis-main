@@ -1,12 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:trokis/presentations/chat_screen.dart/api_contrains.dart';
-import 'package:trokis/presentations/chat_screen.dart/chat_bubble.dart';
-import 'package:trokis/presentations/chat_screen.dart/models/conversation.dart';
-import 'package:trokis/presentations/chat_screen.dart/models/message_model.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
-import 'package:trokis/presentations/chat_screen.dart/socket_secret/socket_services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:myapp/api_contrains.dart';
+import 'package:myapp/chat_bubble.dart';
+import 'package:myapp/models/conversation.dart';
+import 'package:myapp/models/message_model.dart';
+import 'package:myapp/socket_services.dart';
 
 class ConversationDetailPage extends StatefulWidget {
   final Conversation conversation;
@@ -25,6 +28,27 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> {
   bool isLoading = true;
   int currentPage = 1;
   int totalPages = 1;
+
+  LatLng? _currentLocation;
+
+  Future<void> _getCurrentLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      _currentLocation = LatLng(position.latitude, position.longitude);
+    });
+  }
+
+  Future<void> _pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      // You may want to upload the image to your server and get the URL before sending it
+      // For now, we'll just send the image file path.
+      // _sendMessage(isImage: true, imagePath: image.path);
+    }
+  }
 
   Future<void> fetchMessages(int page, int limit) async {
     const String baseUrl = ApiContrainsChat.baseUrl;
@@ -141,18 +165,33 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> {
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black12,
                     blurRadius: 6,
-                    offset: const Offset(0, -2),
+                    offset: Offset(0, -2),
                   ),
                 ],
               ),
               child: Row(
                 children: [
+                  IconButton(
+                    onPressed: () {
+                      if (_currentLocation != null) {
+                        print(_currentLocation!.latitude.toString());
+                        // _sendMessage(isLocation: true);
+                      } else {
+                        _getCurrentLocation();
+                      }
+                    },
+                    icon: const Icon(Icons.location_pin),
+                  ),
+                  IconButton(
+                    onPressed: _pickImage,
+                    icon: const Icon(Icons.image),
+                  ),
                   Expanded(
                     child: TextField(
                       controller: _messageController,
@@ -174,7 +213,7 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> {
                     onTap: _sendMessage,
                     child: Container(
                       padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.teal,
                         shape: BoxShape.circle,
                       ),

@@ -35,7 +35,7 @@ class _InfiniteVideoPlayerState extends State<InfiniteVideoPlayer> {
       _controller.initialize().then((_) {
         if (mounted) {
           setState(() {
-            _controller.play();
+            // _controller.play(); //! Uncomment this line to play the video automatically
             _controller.setLooping(true);
             _controller.setVolume(0.0);
           });

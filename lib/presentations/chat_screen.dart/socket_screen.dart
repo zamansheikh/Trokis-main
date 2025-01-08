@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:trokis/presentations/chat_screen.dart/chat_bubble.dart';
-import 'package:trokis/services/socket_services.dart';
+import 'package:http/http.dart' as http;
+import 'package:trokis/presentations/chat_screen.dart/api_contrains.dart';
+import 'package:trokis/services/api_constants.dart';
+import 'models/conversation.dart';
+import 'conversation_list_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,147 +17,80 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Socket.IO Chat',
+      title: 'Enhanced Chat',
       theme: ThemeData(
         primarySwatch: Colors.teal,
         scaffoldBackgroundColor: const Color(0xFFF6F6F6),
       ),
-      home: const ChatScreen(),
+      home: const HomePage(),
     );
   }
 }
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
-  final TextEditingController _messageController = TextEditingController();
-  final List<String> _messages = [];
-  late SocketService _socketService;
+class _HomePageState extends State<HomePage> {
+  List<Conversation> allConversations = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _socketService = SocketService();
-    _socketService.connect();
-
-    _socketService.onChatMessage((message) {
-      debugPrint('Message received: $message');
-      setState(() {
-        _messages.add(message);
-      });
-    });
+    fetchConversations();
   }
 
-  @override
-  void dispose() {
-    _socketService.disconnect();
-    _messageController.dispose();
-    super.dispose();
-  }
+  Future<void> fetchConversations() async {
+    final String token = ApiContrainsChat.token;
+    const String baseUrl = "http://vibely-ifti.sarv.live";
+    const String endpoint = '/conversation/find?term=&limit=10&page=1';
+    final String url = '$baseUrl$endpoint';
 
-  void _sendMessage() {
-    final message = _messageController.text.trim();
-    if (message.isNotEmpty) {
-      _socketService.sendMessage(message);
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Accept': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final List<dynamic> conversationsJson = data['data'];
+        setState(() {
+          allConversations = conversationsJson
+              .map((json) => Conversation.fromJson(json))
+              .toList();
+          isLoading = false;
+        });
+      } else {
+        throw Exception('Failed to load conversations');
+      }
+    } catch (e) {
       setState(() {
-        _messages.add(message);
+        isLoading = false;
       });
-      _messageController.clear();
+      print('Error fetching conversations: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Socket.IO Chat'),
-        centerTitle: true,
-        elevation: 2,
-        backgroundColor: Colors.teal,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 8,
-                    offset: const Offset(0, -2),
-                  ),
-                ],
-              ),
-              child: ListView.builder(
-                padding: const EdgeInsets.all(8.0),
-                itemCount: _messages.length,
-                itemBuilder: (context, index) {
-                  return ChatBubble(message: _messages[index]);
-                },
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 6,
-                  offset: const Offset(0, -2),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _messageController,
-                    decoration: InputDecoration(
-                      hintText: 'Enter your message...',
-                      filled: true,
-                      fillColor: const Color(0xFFF6F6F6),
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 12),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                GestureDetector(
-                  onTap: _sendMessage,
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.teal,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.send,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+    if (isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    return ConversationListPage(
+      conversations: allConversations,
     );
   }
 }

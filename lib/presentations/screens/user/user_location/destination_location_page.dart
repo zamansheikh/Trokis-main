@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
 import 'package:trokis/core/exports/exports.dart';
-import 'package:trokis/presentations/screens/user/user_location/destination_location_page.dart';
+import 'package:trokis/presentations/screens/user/user_location/item_details_page.dart';
 
-class StartingLocationPage extends StatefulWidget {
-  const StartingLocationPage({super.key});
+class DestinationLocationPage extends StatefulWidget {
+  const DestinationLocationPage({super.key});
 
   @override
-  State<StartingLocationPage> createState() => _StartingLocationPageState();
+  State<DestinationLocationPage> createState() =>
+      _DestinationLocationPageState();
 }
 
-class _StartingLocationPageState extends State<StartingLocationPage> {
+class _DestinationLocationPageState extends State<DestinationLocationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +19,7 @@ class _StartingLocationPageState extends State<StartingLocationPage> {
         centerTitle: true,
         automaticallyImplyLeading: true,
         title: CustomText(
-          text: "Starting Location",
+          text: "Destination Location",
           fontsize: 20,
         ),
       ),
@@ -31,37 +31,7 @@ class _StartingLocationPageState extends State<StartingLocationPage> {
               hintText: 'Starting Location',
               icon: Icons.location_on_outlined,
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: IconFormField(
-                    onTap: () {
-                      showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime.now().add(const Duration(days: 365)),
-                      );
-                    },
-                    hintText: 'Select Date',
-                    icon: Icons.calendar_today_outlined,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: IconFormField(
-                    onTap: () {
-                      showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay.now(),
-                      );
-                    },
-                    hintText: 'Time',
-                    icon: Icons.access_time,
-                  ),
-                ),
-              ],
-            ),
+
             // Dropdown Form Fields
             DropdownFormField(
               onChanged: (p0) {},
@@ -84,10 +54,6 @@ class _StartingLocationPageState extends State<StartingLocationPage> {
               items: ['Street', 'Garage', 'Driveway', 'Lot'],
             ),
 
-            IconFormField(
-              hintText: 'Upload Video',
-              icon: Icons.link,
-            ),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 24),
               width: double.infinity,
@@ -95,7 +61,7 @@ class _StartingLocationPageState extends State<StartingLocationPage> {
               child: ElevatedButton(
                 onPressed: () {
                   // Navigate to the next page
-                  Get.to(() => DestinationLocationPage());
+                  Get.to(() => ItemDetailsPage());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,

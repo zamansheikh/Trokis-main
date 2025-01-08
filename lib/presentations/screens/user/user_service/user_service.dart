@@ -1,6 +1,5 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:trokis/core/exports/exports.dart';
-import 'package:trokis/presentations/screens/user/user_home/home_widget/shipping_widget.dart';
 import 'package:trokis/presentations/screens/user/user_location/starting_location_page.dart';
 import 'package:trokis/presentations/screens/user/user_service/widgets/video_player.dart';
 

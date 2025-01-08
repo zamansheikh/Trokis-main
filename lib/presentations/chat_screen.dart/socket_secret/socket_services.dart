@@ -1,15 +1,15 @@
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:trokis/presentations/chat_screen.dart/socket_secret/constant.dart';
 
 class SocketService {
   late IO.Socket _socket;
-  final String _serverUrl = 'http://10.0.80.110:3000';
-  final String _token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywidXNlcm5hbWUiOiJ0ZXN0dXNlciIsImlhdCI6MTczNjI0NjIyMiwiZXhwIjoxNzM2MjQ5ODIyfQ.mmszenMkBRS_mqDZOx9_dv_xPj45JKTq2VSnfVJZnKU';
+  final String _serverUrl = SocketSecret.socketUrl;
+  final String _token = SocketSecret.authToken;
 
   void connect() {
     final options = IO.OptionBuilder()
         .setTransports(['websocket']) // optional, set transports if needed
-        .setExtraHeaders({'auth': 'Bearer $_token'}) // set authorization header
+        .setExtraHeaders({'auth': _token}) // set authorization header
         .build();
 
     try {
@@ -33,6 +33,16 @@ class SocketService {
 
   void onChatMessage(Function(String) callback) {
     _socket.on('chat message', (data) => callback(data));
+  }
+
+  void onSeenMessage(Function(String) callback) {
+    _socket.on('seen message', (data) {
+      return callback(data);
+    });
+  }
+
+  void sendSeenMessage(String message) {
+    _socket.emit('seen message', message);
   }
 
   void disconnect() {

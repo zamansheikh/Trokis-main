@@ -14,8 +14,7 @@ console.log('Your secret key:', SECRET_KEY);
 const token = jwt.sign({ userId: 123, username: 'testuser' }, SECRET_KEY, {
     expiresIn: '1h', // Token expires in 1 hour
 });
-console.log('Generated Token: Bearer', token);
-
+console.log('Paste this Token: Bearer', token);
 
 // Middleware to Authenticate Token during Handshake
 io.use((socket, next) => {
@@ -48,11 +47,30 @@ io.use((socket, next) => {
 // Event Listeners for Socket Connections
 io.on('connection', (socket) => {
     console.log('A user connected: ', socket.id, 'User:', socket.user);
+    socket.emit('chat message', 'Welcome to the Chat Room!'); // Send a welcome message
+
+    // Post a reply via postMan
+    socket.on('chat-message postman', (msg) => {
+        console.log('Message received from', socket.user, ': ', msg);
+        //send demo replay to client
+        io.emit('chat message', msg);
+    });
 
     // Handle Incoming 'chat message' Events
     socket.on('chat message', (msg) => {
         console.log('Message received from', socket.user, ': ', msg);
+        //send demo replay to client
         io.emit('chat message', { user: socket.user, message: msg }); // Broadcast message with user data
+    });
+
+    // Handle Incoming 'chat message' Events
+    socket.on('seen message', (msg) => {
+        //msg is true or not
+        if (msg === "Seen") {
+            console.log('Message received from', socket.user, ': ', msg);
+            //send demo replay to client
+            io.emit('seen message', msg); // Broadcast message with user data
+        }
     });
 
     // Handle Client Disconnections

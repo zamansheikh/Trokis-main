@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class ChatBubble extends StatelessWidget {
   final String message;
@@ -35,22 +36,18 @@ class ChatBubble extends StatelessWidget {
           children: [
             if (isImage)
               SizedBox(
-                height: 200,
+                height: 150,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    message,
+                  child: Image.file(
+                    File(message),
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => const Text(
-                      'Image not available',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return const SizedBox(
-                        height: 100,
-                        width: 100,
-                        child: Center(child: CircularProgressIndicator()),
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Center(
+                        child: Text(
+                          'Failed to load image',
+                          style: TextStyle(color: Colors.red),
+                        ),
                       );
                     },
                   ),
@@ -61,17 +58,6 @@ class ChatBubble extends StatelessWidget {
                 message,
                 style: TextStyle(
                   color: isMyMessage ? Colors.white : Colors.black,
-                ),
-              ),
-            if (isMyMessage && seenByMe)
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  'Seen',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Colors.white70,
-                  ),
                 ),
               ),
           ],

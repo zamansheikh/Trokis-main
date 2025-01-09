@@ -5,11 +5,13 @@ import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:myapp/api_contrains.dart';
-import 'package:myapp/chat_bubble.dart';
-import 'package:myapp/models/conversation.dart';
-import 'package:myapp/models/message_model.dart';
-import 'package:myapp/socket_services.dart';
+import 'package:trokis/presentations/chat_screen.dart/api_contrains.dart';
+import 'package:trokis/presentations/chat_screen.dart/chat_bubble.dart';
+import 'package:trokis/presentations/chat_screen.dart/location_bubble.dart';
+import 'package:trokis/presentations/chat_screen.dart/map_screen_v1.dart';
+import 'package:trokis/presentations/chat_screen.dart/models/conversation.dart';
+import 'package:trokis/presentations/chat_screen.dart/models/message_model.dart';
+import 'package:trokis/presentations/chat_screen.dart/socket_secret/socket_services.dart';
 
 class ConversationDetailPage extends StatefulWidget {
   final Conversation conversation;
@@ -41,12 +43,13 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> {
 
   Future<void> _pickImage() async {
     final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final List<XFile>? images = await _picker.pickMultiImage();
 
-    if (image != null) {
-      // You may want to upload the image to your server and get the URL before sending it
-      // For now, we'll just send the image file path.
-      // _sendMessage(isImage: true, imagePath: image.path);
+    if (images != null && images.isNotEmpty) {
+      for (var image in images) {
+        _sendImageMessage(MessageFile(url: image.path, type: 'image'));
+        // _sendMessage(isImage: true, imagePath: image.path);
+      }
     }
   }
 
@@ -87,6 +90,69 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> {
       });
       // ignore: avoid_print
       print('Error fetching messages: $e');
+    }
+  }
+
+  Future<void> sendLocation(LatLng loc) async {
+    const String baseUrl = ApiContrainsChat.baseUrl;
+    String conversationId = widget.conversation.id;
+    String receiverID = widget.conversation.receiverID;
+    final String endpoint = '/message/location';
+    final String url = '$baseUrl$endpoint';
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer ${ApiContrainsChat.token}',
+          'Accept': 'application/json',
+        },
+        body: {
+          "receiverID": receiverID,
+          "conversationID": conversationId,
+          "latitude": loc.latitude.toString(),
+          "longitude": loc.longitude.toString(),
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        print(data);
+      } else {
+        throw Exception('Failed to load messages');
+      }
+    } catch (e) {
+      // ignore: avoid_print
+      print('Error fetching messages: $e');
+    }
+  }
+
+  Future<void> sendFile({
+    required String filePath,
+    required String conversationId,
+    required String receiverID,
+  }) async {
+    const String baseUrl = ApiContrainsChat.baseUrl;
+    final String endpoint = '/message';
+    final String url = '$baseUrl$endpoint';
+
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(url))
+        ..fields['receiverID'] = receiverID
+        ..fields['conversationID'] = conversationId
+        ..files.add(await http.MultipartFile.fromPath('files', filePath));
+
+      var response = await request.send();
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(await response.stream.bytesToString());
+        print('File uploaded successfully: $data');
+      } else {
+        final errorData = await response.stream.bytesToString();
+        print('Failed to upload file: ${response.statusCode}, $errorData');
+        throw Exception('Failed to upload file');
+      }
+    } catch (e) {
+      print('Error uploading file: $e');
     }
   }
 
@@ -150,9 +216,18 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> {
                         itemCount: messages.length,
                         itemBuilder: (context, index) {
                           final message = messages[index];
+                          if (message.messageType == 'location') {
+                            return LocationBubble(
+                                latitude: message.latitude!,
+                                longitude: message.longitude!,
+                                isMyMessage: message.senderId !=
+                                    widget.conversation.receiverID);
+                          }
                           return ChatBubble(
                             message: message.messageType == 'image'
-                                ? '${ApiContrainsChat.baseUrl}/${message.files.first.url}'
+                                ? (message.content?.contains("http") == true
+                                    ? '${ApiContrainsChat.baseUrl}/${message.files.first.url}'
+                                    : message.files.first.url)
                                 : message.content ?? '',
                             isMyMessage: message.senderId !=
                                 widget.conversation.receiverID,
@@ -178,12 +253,25 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> {
               child: Row(
                 children: [
                   IconButton(
-                    onPressed: () {
-                      if (_currentLocation != null) {
-                        print(_currentLocation!.latitude.toString());
-                        // _sendMessage(isLocation: true);
-                      } else {
-                        _getCurrentLocation();
+                    onPressed: () async {
+                      await _getCurrentLocation();
+                      // if (await _currentLocation != null) {
+                      //   print(_currentLocation!.latitude.toString());
+                      //   // _sendMessage(isLocation: true);
+                      // } else {
+                      //   _getCurrentLocation();
+                      // }
+                      final currentLocation = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OpenMapsScreen(
+                            sellerLocation: _currentLocation!,
+                          ),
+                        ),
+                      );
+                      print("currentLocation: $currentLocation");
+                      if (currentLocation != null) {
+                        sendLocation(currentLocation);
                       }
                     },
                     icon: const Icon(Icons.location_pin),
@@ -251,6 +339,32 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> {
       _socketService.sendMessage(
         message: message.content!,
         conversationID: widget.conversation.id,
+        receiverID: widget.conversation.receiverID,
+      );
+      _messageController.clear();
+    }
+  }
+
+  void _sendImageMessage(MessageFile file) async {
+    final message = Message(
+      id: '1',
+      senderId: ApiContrainsChat.currentUserId,
+      content: "",
+      conversationId: widget.conversation.id,
+      files: [file],
+      messageType: 'image',
+      seenBy: [],
+      createdAt: DateTime.now(),
+      profilePicture: '',
+    );
+
+    if (message.files.isNotEmpty) {
+      setState(() {
+        // messages.insert(0, message);
+      });
+      await sendFile(
+        filePath: message.files.first.url,
+        conversationId: widget.conversation.id,
         receiverID: widget.conversation.receiverID,
       );
       _messageController.clear();

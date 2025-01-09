@@ -1,4 +1,5 @@
 import 'package:trokis/core/exports/exports.dart';
+import 'package:trokis/presentations/screens/user/user_moving/get_price_screen.dart';
 
 class MovingInformationPage extends StatelessWidget {
   const MovingInformationPage({super.key});
@@ -113,7 +114,89 @@ Office / Studio
               height: 56,
               child: ElevatedButton(
                 onPressed: () {
-                  // Implement Get Prices functionality here
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                          child: Center(
+                            child: Container(
+                              height: 200,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CustomText(
+                                    text:
+                                        "The Estimate Price for\nthis Moving is:",
+                                    fontsize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  SizedBox(height: 20),
+                                  CustomText(
+                                    text: "\$ 700",
+                                    fontsize: 24,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  SizedBox(height: 20),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pop(); // Close the dialog
+                                      Get.to(() => const GetPriceScreen());
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.white,
+                                      foregroundColor: Colors.black,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      "Confirm",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ));
+
+                      //  AlertDialog(
+                      //   title: const Text(
+                      //       'The Estimate Price for this Moving is: \$ 700'),
+                      //   content: const Text('Are you sure you want to submit?'),
+                      //   actions: [
+                      //     TextButton(
+                      //       onPressed: () {
+                      //         Navigator.of(context).pop(); // Close the dialog
+                      //       },
+                      //       child: const Text('Cancel'),
+                      //     ),
+                      //     TextButton(
+                      //       onPressed: () {
+                      //         Navigator.of(context).pop(); // Close the dialog
+                      //         Get.to(() =>
+                      //             const GetPriceScreen()); // Navigate to GetPriceScreen
+                      //       },
+                      //       child: const Text('Confirm'),
+                      //     ),
+                      //   ],
+                      // );
+                    },
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,

@@ -25,6 +25,8 @@ class Message {
   final List<String> seenBy;
   final DateTime createdAt;
   final String profilePicture;
+  final double? latitude;
+  final double? longitude;
 
   Message({
     required this.id,
@@ -36,6 +38,8 @@ class Message {
     required this.seenBy,
     required this.createdAt,
     required this.profilePicture,
+    this.latitude,
+    this.longitude,
   });
 
   factory Message.fromJson(Map<String, dynamic> json) {
@@ -53,6 +57,9 @@ class Message {
       seenBy: List<String>.from(json['seenBy']),
       createdAt: DateTime.parse(json['createdAt']),
       profilePicture: json['profilePicture'] ?? '',
+      latitude: json['location'] != null ? json['location']['latitude'] : null,
+      longitude:
+          json['location'] != null ? json['location']['longitude'] : null,
     );
   }
 }

@@ -10,6 +10,9 @@ Future<Position> determinePosition() async {
 
   // Test if location services are enabled.
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  (!serviceEnabled)
+      ? print('Location services are disabled.')
+      : print('Location services are enabled.');
   if (!serviceEnabled) {
     // Location services are not enabled don't continue
     // accessing the position and request users of the
@@ -18,6 +21,7 @@ Future<Position> determinePosition() async {
   }
 
   permission = await Geolocator.checkPermission();
+  print('Permission: $permission');
   if (permission == LocationPermission.denied) {
     permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied) {

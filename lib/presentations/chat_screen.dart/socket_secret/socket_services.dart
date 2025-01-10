@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:trokis/presentations/chat_screen.dart/api_contrains.dart';
 

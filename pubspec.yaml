@@ -16,7 +16,7 @@ dependencies:
   intl:
   get: ^4.6.6
   flutter_screenutil: ^5.9.3
-  flutter_svg: ^2.0.16
+  flutter_svg: ^2.0.17
   pin_code_fields: ^8.0.1
   image_picker: ^1.1.2
   timeago:
@@ -34,6 +34,9 @@ dependencies:
   geolocator: ^13.0.2
   latlong2: ^0.9.1
   flutter_map: ^7.0.2
+  logger: ^2.5.0
+  google_maps_flutter: ^2.10.0
+  path_provider: ^2.1.5
 
 dev_dependencies:
   flutter_gen_runner: null
@@ -68,6 +71,7 @@ flutter:
     - assets/icons/
     - assets/flag/
     - assets/video/.
+    - assets/images/map_marker.png
 
 
 

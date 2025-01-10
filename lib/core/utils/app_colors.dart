@@ -1,11 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 
-class AppColors{
-
-  static Color primaryColor=const Color(0xFF000000);
-  static Color backgroundColor =  const Color(0xFF222222);
+class AppColors {
+  static Color primaryColor = const Color(0xFF000000);
+  static Color backgroundColor = const Color(0xFF222222);
   static Color textColorFFFFFF = const Color(0xFFFFFFFF);
   static Color textColorE8E8E8 = const Color(0xFFE8E8E8);
   static Color cardLightColor = const Color(0xFF555555);
@@ -20,9 +17,7 @@ class AppColors{
   static Color redColorEB5757 = const Color(0xFFEB5757);
   static Color fillColor = Color(0xFF0445E5).withOpacity(0.15);
 
-
-
-  static BoxShadow shadow=BoxShadow(
+  static BoxShadow shadow = BoxShadow(
     blurRadius: 4,
     spreadRadius: 0,
     color: shadowColor,

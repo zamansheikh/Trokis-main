@@ -1,6 +1,5 @@
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:trokis/core/exports/exports.dart';
-import 'package:trokis/core/widgets/minimal_button.dart';
 import 'package:trokis/presentations/screens/user/user_home/user_home_screen.dart';
 
 class OTPVerifyScreen extends StatefulWidget {

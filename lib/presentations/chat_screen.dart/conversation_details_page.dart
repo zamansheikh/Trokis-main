@@ -42,8 +42,8 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> {
   }
 
   Future<void> _pickImage() async {
-    final ImagePicker _picker = ImagePicker();
-    final List<XFile>? images = await _picker.pickMultiImage();
+    final ImagePicker picker = ImagePicker();
+    final List<XFile> images = await picker.pickMultiImage();
 
     if (images != null && images.isNotEmpty) {
       for (var image in images) {

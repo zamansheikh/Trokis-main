@@ -1,8 +1,5 @@
-
-
-class AppConstants{
-
-  static String APP_NAME="Trokis";
+class AppConstants {
+  static String APP_NAME = "Trokis";
   static String bearerToken = "bearerToken";
   static String email = "email";
   static String textColor = "textColor";
@@ -12,8 +9,11 @@ class AppConstants{
   static String subscription = "subscription";
   static String themeUrl = "themeUrl";
 
+  //Maps API KEY:
+  static String MapAPIKEy = "AIzaSyBFi80uuJIWkkLCpodFa8oXmD8XD_h8LMc";
+
   // share preference Key
-  static String THEME ="theme";
+  static String THEME = "theme";
   static const String LANGUAGE_CODE = 'language_code';
   static const String COUNTRY_CODE = 'country_code';
 
@@ -21,8 +21,7 @@ class AppConstants{
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
   static RegExp passwordValidator = RegExp(
-      r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-  );
+      r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$");
 
   static bool validatePassword(String value) {
     RegExp regex = RegExp(r'^(?=.*[0-9])(?=.*[a-zA-Z]).{6,}$');
@@ -32,5 +31,4 @@ class AppConstants{
   //   LanguageModel( languageName: 'English', countryCode: 'US', languageCode: 'en'),
   //   LanguageModel( languageName: 'Spanish', countryCode: 'ES', languageCode: 'es'),
   // ];
-
 }

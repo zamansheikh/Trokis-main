@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:trokis/core/exports/exports.dart';
-import 'package:trokis/core/widgets/custom_text.dart';
+import 'package:trokis/presentations/screens/user/user_moving/bid_price_screen.dart';
 
 class GetPriceScreen extends StatefulWidget {
   const GetPriceScreen({super.key});
@@ -67,7 +65,11 @@ class _GetPriceScreenState extends State<GetPriceScreen> {
                 fontWeight: FontWeight.bold,
               ),
               const SizedBox(height: 20),
-              CustomButton(onTap: () {}, text: "Back to Home"),
+              CustomButton(
+                  onTap: () {
+                    Get.to(() => const BidPriceScreen());
+                  },
+                  text: "Back to Home"),
             ],
           ),
         ));

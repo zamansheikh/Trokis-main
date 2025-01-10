@@ -42,8 +42,8 @@ class _MapViewWidgetState extends State<MapViewWidget> {
     final image =
         await MarkerUtils.loadImageFromAssets('assets/images/map_marker.png');
     await MarkerUtils.createBitmapDescriptor(
-      image: image,
-      // iconData: Icons.directions_car,
+      // image: image,
+      iconData: Icons.directions_car,
     ).then((icon) {
       setState(() {
         customIcon = icon;

@@ -45,7 +45,7 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> {
     final ImagePicker picker = ImagePicker();
     final List<XFile> images = await picker.pickMultiImage();
 
-    if (images != null && images.isNotEmpty) {
+    if (images.isNotEmpty) {
       for (var image in images) {
         _sendImageMessage(MessageFile(url: image.path, type: 'image'));
         // _sendMessage(isImage: true, imagePath: image.path);

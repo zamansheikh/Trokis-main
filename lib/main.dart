@@ -1,8 +1,10 @@
 import 'core/app_route/app_routes.dart';
 import 'core/exports/exports.dart';
 import 'core/utils/app_constants.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 

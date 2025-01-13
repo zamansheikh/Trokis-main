@@ -24,8 +24,9 @@
         android:label="trokis"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-        <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyBFi80uuJIWkkLCpodFa8oXmD8XD_h8LMc"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${applicationId}.BuildConfig.MAPS_API_KEY" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

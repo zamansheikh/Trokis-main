@@ -8,10 +8,6 @@ class AppConstants {
   static String isLogged = "isLogged";
   static String subscription = "subscription";
   static String themeUrl = "themeUrl";
-
-  //Maps API KEY:
-  static String MapAPIKEy = "AIzaSyBFi80uuJIWkkLCpodFa8oXmD8XD_h8LMc";
-
   // share preference Key
   static String THEME = "theme";
   static const String LANGUAGE_CODE = 'language_code';

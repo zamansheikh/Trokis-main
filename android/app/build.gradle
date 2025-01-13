@@ -24,6 +24,7 @@ android {
         applicationId = "com.example.trokis"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
+        buildConfigField("String", "MAPS_API_KEY", "\"${project.properties['MAPS_API_KEY']}\"")
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

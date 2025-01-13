@@ -8,6 +8,9 @@
 .buildlog/
 .history
 .svn/
+*.env
+local.properties
+android/local.properties
 migrate_working_dir/
 
 # IntelliJ related

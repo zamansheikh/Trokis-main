@@ -1,15 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:trokis/core/exports/exports.dart';
 import 'dart:convert';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import 'package:trokis/core/utils/app_constants.dart';
 import 'package:trokis/core/utils/logger.dart';
 import 'package:trokis/core/utils/marker_utils.dart';
-import 'package:trokis/core/utils/utils.dart';
 import 'package:trokis/presentations/screens/user/user_moving/complete_request_screen.dart';
 import 'package:trokis/presentations/screens/user/user_moving/driver_info_widget.dart';
 
@@ -34,6 +31,7 @@ class _MapViewWidgetState extends State<MapViewWidget> {
   BitmapDescriptor customIcon = BitmapDescriptor.defaultMarker;
   LatLng? _currentDriverLocation;
   Timer? _timer;
+  String apiKey = dotenv.env['MAP_API_KEY']!;
 
   final Set<Marker> _markers = {};
   final Set<Polyline> _polylines = {};
@@ -127,7 +125,6 @@ class _MapViewWidgetState extends State<MapViewWidget> {
   }
 
   Future<void> _fetchRoute() async {
-    String apiKey = AppConstants.MapAPIKEy;
     final String url =
         'https://maps.googleapis.com/maps/api/directions/json?origin=${widget.startLocation.latitude},${widget.startLocation.longitude}&destination=${widget.destinationLocation.latitude},${widget.destinationLocation.longitude}&key=$apiKey';
 

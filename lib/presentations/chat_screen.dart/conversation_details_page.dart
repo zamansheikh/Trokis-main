@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:trokis/core/utils/logger.dart';
 import 'package:trokis/presentations/chat_screen.dart/api_contrains.dart';
 import 'package:trokis/presentations/chat_screen.dart/chat_bubble.dart';
 import 'package:trokis/presentations/chat_screen.dart/location_bubble.dart';
@@ -116,7 +117,7 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        print(data);
+        AppLogger.d('Location sent successfully: $data');
       } else {
         throw Exception('Failed to load messages');
       }

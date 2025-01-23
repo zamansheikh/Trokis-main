@@ -18,7 +18,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       body: IndexedStack(
         index: _selectedIndex,
         children: [
-          UserHomeScreen(),
+          // UserHomeScreen(),
           UserService(),
           // UserAddScreen(),
           // UserFavoriteScreen(),
@@ -49,60 +49,57 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(50), // Rounded corners
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.2),
-            spreadRadius: 2,
-            blurRadius: 5,
-          ),
-        ],
-      ),
-      margin: const EdgeInsets.all(16), // Margin from screen edges
-      padding: const EdgeInsets.symmetric(vertical: 10), // Inner padding
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildNavItem(
-            context,
-            iconPath: "assets/icons/nav1.svg",
-            label: "Home",
-            isLabelHidden: true,
-            index: 0,
-          ),
-          _buildNavItem(
-            context,
-            iconPath: "assets/icons/nav2.svg",
-            label: "Search",
-            isLabelHidden: true,
-            index: 1,
-          ),
-          _buildNavItem(
-            context,
-            iconPath: "assets/icons/nav3.svg",
-            label: "Add",
-            isLabelHidden: true,
-            index: 2,
-          ),
-          _buildNavItem(
-            context,
-            iconPath: "assets/icons/nav4.svg",
-            label: "Favorite",
-            isLabelHidden: true,
-            index: 3,
-          ),
-          _buildNavItem(
-            context,
-            iconPath: "assets/icons/nav5.svg",
-            label: "Profile",
-            isLabelHidden: true,
-            index: 4,
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 30),
+      child: Container(
+        height: 65,
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.circular(50),
+        ),
+        margin: const EdgeInsets.symmetric(
+            horizontal: 24), // Margin from screen edges
+        // padding: const EdgeInsets.symmetric(vertical: 10), // Inner padding
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildNavItem(
+              context,
+              iconPath: "assets/icons/nav_home.svg",
+              label: "Home",
+              isLabelHidden: true,
+              index: 0,
+            ),
+            _buildNavItem(
+              context,
+              iconPath: "assets/icons/nav5.svg",
+              label: "Profile",
+              isLabelHidden: true,
+              index: 1,
+            ),
+            _buildNavItem(
+              context,
+              iconPath: "assets/icons/nav4.svg",
+              label: "Favorite",
+              isLabelHidden: true,
+              index: 2,
+            ),
+            _buildNavItem(
+              context,
+              iconPath: "assets/icons/nav3.svg",
+              label: "Add",
+              isLabelHidden: true,
+              index: 3,
+            ),
+            _buildNavItem(
+              context,
+              iconPath: "assets/icons/nav2.svg",
+              label: "Search",
+              isLabelHidden: true,
+              index: 4,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -114,71 +111,40 @@ class CustomBottomNavigationBar extends StatelessWidget {
     required int index,
     bool isLabelHidden = false,
   }) {
-    final bool isSelected = selectedIndex == index;
-    if (!isSelected) {
-      return Container(
-        decoration: BoxDecoration(),
-        child: GestureDetector(
-          onTap: () => onTap(index),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgPicture.asset(
-                iconPath,
-                height: 24,
-                colorFilter: ColorFilter.mode(
-                  isSelected ? Colors.blue : Colors.grey,
-                  BlendMode.srcIn,
+    return GestureDetector(
+      onTap: () => onTap(index),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 6.5),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                color: selectedIndex == index ? Colors.white : Colors.black,
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: SvgPicture.asset(
+                  iconPath,
+                  color: index == selectedIndex ? Colors.black : Colors.white,
+                  height: 24,
+                  width: 24,
                 ),
               ),
-              const SizedBox(height: 4),
-              if (!isLabelHidden)
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight:
-                        isSelected ? FontWeight.bold : FontWeight.normal,
-                    color: isSelected ? Colors.blue : Colors.grey,
-                  ),
-                ),
-            ],
-          ),
-        ),
-      );
-    } else {
-      return GestureDetector(
-        onTap: () => onTap(index),
-        child: Container(
-          padding: EdgeInsets.all(5),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20), color: Colors.white),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgPicture.asset(
-                iconPath,
-                height: 24,
-                colorFilter: ColorFilter.mode(
-                  isSelected ? Colors.black : Colors.grey,
-                  BlendMode.srcIn,
-                ),
+            ),
+            Text(
+              label,
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: "Lora",
+                fontSize: 10,
               ),
-              const SizedBox(height: 4),
-              if (!isLabelHidden)
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight:
-                        isSelected ? FontWeight.bold : FontWeight.normal,
-                    color: isSelected ? Colors.blue : Colors.grey,
-                  ),
-                ),
-            ],
-          ),
+            )
+          ],
         ),
-      );
-    }
+      ),
+    );
   }
 }

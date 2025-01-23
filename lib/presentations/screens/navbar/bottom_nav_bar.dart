@@ -1,5 +1,6 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:trokis/core/exports/exports.dart';
+import 'package:trokis/presentations/screens/user/user_home/user_home_screen.dart';
 import 'package:trokis/presentations/screens/user/user_service/user_service.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -11,26 +12,33 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
+  List<Widget> pages = [
+    UserHomeScreen(),
+    UserService(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: [
-          // UserHomeScreen(),
-          UserService(),
-          // UserAddScreen(),
-          // UserFavoriteScreen(),
-          // UserProfileScreen(),
-        ],
-      ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: _selectedIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
+      body: SafeArea(
+        child: Stack(
+          children: [
+            pages[_selectedIndex % pages.length],
+            Positioned(
+              bottom: 30,
+              left: 24,
+              right: 24,
+              child: CustomBottomNavigationBar(
+                selectedIndex: _selectedIndex,
+                onTap: (index) {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -48,47 +56,42 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 50),
-      child: Container(
-        height: 65,
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(50),
-        ),
-        margin: const EdgeInsets.symmetric(
-            horizontal: 24),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 12,
-          children: [
-            _buildNavItem(
-              iconPath: "assets/icons/nav_home.svg",
-              label: "Home",
-              index: 0,
-            ),
-            _buildNavItem(
-              iconPath: "assets/icons/nav5.svg",
-              label: "Service",
-              index: 1,
-            ),
-            _buildNavItem(
-              iconPath: "assets/icons/nav4.svg",
-              label: "Chat",
-              index: 2,
-            ),
-            _buildNavItem(
-              iconPath: "assets/icons/nav3.svg",
-              label: "Activity",
-              index: 3,
-            ),
-            _buildNavItem(
-              iconPath: "assets/icons/nav2.svg",
-              label: "Profile",
-              index: 4,
-            ),
-          ],
-        ),
+    return Container(
+      height: 65,
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(50),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        spacing: 12,
+        children: [
+          _buildNavItem(
+            iconPath: "assets/icons/nav_home.svg",
+            label: "Home",
+            index: 0,
+          ),
+          _buildNavItem(
+            iconPath: "assets/icons/nav5.svg",
+            label: "Service",
+            index: 1,
+          ),
+          _buildNavItem(
+            iconPath: "assets/icons/nav4.svg",
+            label: "Chat",
+            index: 2,
+          ),
+          _buildNavItem(
+            iconPath: "assets/icons/nav3.svg",
+            label: "Activity",
+            index: 3,
+          ),
+          _buildNavItem(
+            iconPath: "assets/icons/nav2.svg",
+            label: "Profile",
+            index: 4,
+          ),
+        ],
       ),
     );
   }

@@ -13,151 +13,107 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Image.asset(
-                    "assets/images/app_logo.png",
-                    height: 70,
-                  ),
+                const SizedBox(width: 24,),
+                Image.asset(
+                  "assets/images/app_logo.png",
+                  height: 70,
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.notifications),
-                ),
+                const Spacer(),
+                SvgPicture.asset("assets/icons/notification.svg"),
+                const SizedBox(width: 26,),
               ],
             ),
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  ),
-                  child: Image.asset(
-                    fit: BoxFit.cover,
-                    "assets/images/welcome_map.jpg",
-                    height: 200,
-                    width: double.infinity,
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  child: Center(
-                    child: CustomText(
-                      textOverflow: TextOverflow.visible,
-                      text: "Welcome to Trokis",
-                      fontsize: 50,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withValues(alpha: 0.2),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                          ),
-                        ],
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          "assets/images/map.png",
+                          fit: BoxFit.fitHeight,
+                          height: MediaQuery.of(context).size.height * 0.58,
+                        ),
                       ),
-                      height: 100,
-                      width: double.infinity,
-                      child: Column(
+                      const SizedBox(height: 32),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SvgPicture.asset(
-                            "assets/icons/bid.svg",
-                            height: 30,
+                          _drawIconBox(
+                            iconPath: "assets/icons/moving.svg",
+                            name: "Moving",
+                            onTap: () {},
                           ),
-                          CustomText(
-                            text: "Bid",
-                            fontsize: 20,
-                            fontWeight: FontWeight.bold,
+                          const SizedBox(width: 8),
+                          _drawIconBox(
+                            iconPath: "assets/icons/big_item.svg",
+                            name: "Big Item",
+                            onTap: () {},
+                          ),
+                          const SizedBox(width: 8),
+                          _drawIconBox(
+                            iconPath: "assets/icons/errand.svg",
+                            name: "Errand",
+                            onTap: () {},
                           ),
                         ],
                       ),
-                    ),
+                      const SizedBox(
+                        height: 120,
+                      ),
+                    ],
                   ),
-                  SizedBox(width: 20), // Add spacing between the containers
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withValues(alpha: 0.2),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                          ),
-                        ],
-                      ),
-                      height: 100,
-                      width: double.infinity,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/icons/customer_support.svg",
-                            height: 30,
-                          ),
-                          CustomText(
-                            text: "Bid",
-                            fontsize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: CustomText(
-                      text: "Recent Shipping",
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  ShippingCard(
-                    from: "Banasree, Dhaka",
-                    to: "Rupatoli, Barishal",
-                    status: "Parcel Is On The Way To Delivery",
-                  ),
-                  SizedBox(height: 10),
-                  ShippingCard(
-                    from: "Banasree, Dhaka",
-                    to: "Rupatoli, Barishal",
-                    status: "Parcel Is On The Way To Delivery",
-                  ),
-                ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _drawIconBox({
+    required String iconPath,
+    required String name,
+    Function()? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 80,
+        width: 100,
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 0.5,
+            color: Color(0xff333333),
+          ),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 24,
+              width: 24,
+              child: SvgPicture.asset(
+                iconPath,
+                fit: BoxFit.contain,
               ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Text(
+              "Moving",
+              style: TextStyle(fontFamily: "Lora", fontSize: 16),
             )
           ],
         ),

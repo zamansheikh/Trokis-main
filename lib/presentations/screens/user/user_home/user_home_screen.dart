@@ -112,7 +112,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               height: 8,
             ),
             Text(
-              "Moving",
+              name,
               style: TextStyle(fontFamily: "Lora", fontSize: 16),
             )
           ],

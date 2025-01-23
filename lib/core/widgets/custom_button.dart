@@ -51,20 +51,22 @@ class CustomButton extends StatelessWidget {
       //   ),
       //   child: loading ? _buildLoadingIndicator() : _buildButtonText(),
       // ),
-      child: Container(
-        width: width ?? double.infinity,
-        height: height ?? 50,
-        decoration: BoxDecoration(
-          color: color ?? AppColors.primaryColor,
-          border: Border.all(
-            color: Color(
-              0x33333333,
-            ),
+      child: GestureDetector(
+        onTap: isNetworkNeed == true ? _handleOnPressed : onTap,
+        child: Container(
+          width: width ?? double.infinity,
+          height: height ?? 50,
+          decoration: BoxDecoration(
+              color: color ?? AppColors.primaryColor,
+              border: Border.all(
+                color: Color(
+                  0x33333333,
+                ),
+              ),
+              borderRadius: BorderRadius.circular(12)),
+          child: Center(
+            child: loading ? _buildLoadingIndicator() : _buildButtonText(),
           ),
-          borderRadius: BorderRadius.circular(12)
-        ),
-        child: Center(
-          child: loading ? _buildLoadingIndicator() : _buildButtonText(),
         ),
       ),
     );
@@ -87,10 +89,11 @@ class CustomButton extends StatelessWidget {
       text,
       style: textStyle ??
           TextStyle(
-              fontFamily: "Lora",
-              fontWeight: FontWeight.w400,
-              color: color == null ? Colors.white : AppColors.primaryColor,
-              fontSize: 18),
+            fontFamily: "Lora",
+            fontWeight: FontWeight.w400,
+            color: color == null ? Colors.white : AppColors.primaryColor,
+            fontSize: 18,
+          ),
     );
   }
 }

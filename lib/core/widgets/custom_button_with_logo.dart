@@ -29,8 +29,8 @@ class CustomButtonWithLogo extends StatelessWidget {
       child: Container(
         height: height,
         decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(10),
+          color: Color(0xffe6e6e6),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -43,8 +43,10 @@ class CustomButtonWithLogo extends StatelessWidget {
             Text(
               text,
               style: TextStyle(
-                color: textColor,
-                fontWeight: FontWeight.bold,
+                color: Color(0xff333333),
+                fontFamily: "Lora",
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
               ),
             ),
           ],

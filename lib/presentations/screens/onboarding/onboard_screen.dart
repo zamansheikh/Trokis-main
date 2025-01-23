@@ -1,3 +1,4 @@
+import 'package:trokis/core/app_route/app_routes.dart';
 import 'package:trokis/core/exports/exports.dart';
 
 class OnboardScreen extends StatelessWidget {
@@ -26,7 +27,9 @@ class OnboardScreen extends StatelessWidget {
               height: 32,
             ),
             CustomButton(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(AppRoutes.signinScreen);
+              },
               text: "Login",
             ),
             const SizedBox(

@@ -2,7 +2,6 @@ import 'package:trokis/core/app_route/app_routes.dart';
 import 'package:trokis/core/exports/exports.dart';
 import 'package:trokis/core/widgets/custom_button_with_logo.dart';
 import 'package:trokis/core/widgets/custom_phone_number_field.dart';
-import 'package:trokis/core/widgets/minimal_button.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -17,6 +16,7 @@ class _SigninScreenState extends State<SigninScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: Center(
@@ -29,39 +29,49 @@ class _SigninScreenState extends State<SigninScreen> {
                 Image.asset(
                   "assets/images/app_logo.png",
                   height: 200,
-                  width: 200,
+                  width: 220,
                 ),
                 const SizedBox(height: 20),
 
                 // Phone Number Input
                 CustomPhoneNumberField(
-                  hintText: "Enter Your Mobile Number",
+                  // hintText: "Enter Your Mobile Number",
                   controller: phoneController,
                 ),
                 const SizedBox(height: 20),
 
                 // Continue Button
-                CustomButtonWithLogo(
+                CustomButton(
                   onTap: () {
                     //Show the bottom sheet,
                     bottomSheet(context);
                   },
                   text: "Continue",
-                  height: 50,
-                  backgroundColor: Colors.black,
-                  textColor: Colors.white,
                 ),
                 const SizedBox(height: 20),
 
                 // Divider with "or"
                 Row(
                   children: const [
-                    Expanded(child: Divider()),
+                    Expanded(
+                        child: Divider(
+                      color: Color(0xff545454),
+                    )),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text("or"),
+                      child: Text(
+                        "Or",
+                        style: TextStyle(
+                            fontFamily: "Lora",
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xff545454)),
+                      ),
                     ),
-                    Expanded(child: Divider()),
+                    Expanded(
+                        child: Divider(
+                      color: Color(0xff545454),
+                    )),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -118,26 +128,27 @@ class _SigninScreenState extends State<SigninScreen> {
       context: context,
       builder: (context) {
         return SizedBox(
-          height: 200,
+          height: 225,
           child: Padding(
-            padding: const EdgeInsets.all(23.0),
+            padding: const EdgeInsets.all(24.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 20),
-                MinimalButton(
+                CustomButton(
                   onTap: () {
-                    Get.toNamed(AppRoutes.signInWithEmail);
+                    Get.back();
+                    Get.toNamed(AppRoutes.otpVerifyScreen);
                   },
                   text: "Register as User",
-                  height: 42,
                 ),
-                const SizedBox(height: 20),
-                MinimalButton(
+                const SizedBox(height: 24),
+                CustomButton(
                   onTap: () {
-                    Get.toNamed(AppRoutes.signInWithEmail);
+                    Get.back();
+                    Get.toNamed(AppRoutes.otpVerifyScreen);
                   },
                   text: "Register as Driver",
-                  height: 42,
+                  color: AppColors.backgroundColor,
                 ),
               ],
             ),

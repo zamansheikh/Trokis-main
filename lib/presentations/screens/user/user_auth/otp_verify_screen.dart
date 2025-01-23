@@ -1,6 +1,6 @@
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:trokis/core/app_route/app_routes.dart';
 import 'package:trokis/core/exports/exports.dart';
-import 'package:trokis/presentations/screens/user/user_home/user_home_screen.dart';
 
 class OTPVerifyScreen extends StatefulWidget {
   const OTPVerifyScreen({super.key});
@@ -16,10 +16,22 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      backgroundColor: AppColors.backgroundColor,
+      appBar: AppBar(
+        leading: Icon(Icons.arrow_back_ios),
+        title: Text(
+          "Forgot Password",
+          style: TextStyle(
+            fontFamily: "Lora",
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: AppColors.backgroundColor,
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(23.0),
+            padding: const EdgeInsets.all(24.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -27,33 +39,45 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
                 Image.asset(
                   "assets/images/app_logo.png",
                   height: 200,
-                  width: 200,
+                  width: 220,
                 ),
-                const SizedBox(height: 20),
-                CustomText(
-                  text: "Verify Email",
-                  fontsize: 23,
-                  fontWeight: FontWeight.bold,
+                const SizedBox(height: 24),
+                Text(
+                  "Verify Number",
+                  style: TextStyle(
+                      fontFamily: "Lora",
+                      fontSize: 23,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0XFF333333)),
                 ),
                 const SizedBox(height: 10),
-                CustomText(
-                  text:
-                      "Please enter the OTP code, \nWe’ve sent you in your mail.",
-                  fontsize: 15,
+                Text(
+                  "Please enter the OTP code, We’ve sent you in your Number.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: "Lora",
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0XFF333333)),
                 ),
                 const SizedBox(height: 20),
                 OtpTextField(
-                  fieldHeight: 42,
-                  fieldWidth: 42,
+                  fieldHeight: 50,
+                  fieldWidth: 50,
+                  textStyle: TextStyle(
+                    fontFamily: "Lora",
+                    fontSize: 18,
+                  ),
                   decoration: InputDecoration(
                     counterText: "",
+                    isDense: true,
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(42.0),
-                      borderSide: const BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.circular(99.0),
+                      borderSide: const BorderSide(color: Color(0xff8a8a8a)),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(42.0),
-                      borderSide: const BorderSide(color: Colors.blue),
+                      borderRadius: BorderRadius.circular(99.0),
+                      borderSide: BorderSide(color: AppColors.primaryColor),
                     ),
                     filled: true,
                     fillColor: Colors.white,
@@ -61,27 +85,18 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
 
                   numberOfFields: 6,
                   hasCustomInputDecoration: true,
-                  borderColor: Color(0xFF512DA8),
                   showFieldAsBox: false,
                   onCodeChanged: (String code) {
                     //handle validation or checks here
                   },
                   onSubmit: (String verificationCode) {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text("Verification Code"),
-                            content: Text('Code entered is $verificationCode'),
-                          );
-                        });
                   }, // end onSubmit
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 24),
 
                 CustomButton(
                   onTap: () {
-                    Get.to(() => UserHomeScreen());
+                    Get.offAllNamed(AppRoutes.bottomNavBar);
                   },
                   text: "Verify",
                 ),

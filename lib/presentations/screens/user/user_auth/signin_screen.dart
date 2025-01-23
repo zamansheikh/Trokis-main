@@ -78,8 +78,7 @@ class _SigninScreenState extends State<SigninScreen> {
 
                 // Social Login Buttons
                 CustomButtonWithLogo(
-                  isAsset: true,
-                  assetPath: "assets/images/google_logo.png",
+                  assetPath: "assets/icons/google.svg",
                   onTap: () {
                     // Handle Google login
                   },
@@ -87,13 +86,11 @@ class _SigninScreenState extends State<SigninScreen> {
                   height: 50,
                   backgroundColor: Colors.grey.shade300,
                   textColor: Colors.black,
-                  icon: Icons.face,
                 ),
                 const SizedBox(height: 10),
 
                 CustomButtonWithLogo(
-                  isAsset: true,
-                  assetPath: "assets/images/facebook_logo.png",
+                  assetPath: "assets/icons/facebook.svg",
                   onTap: () {
                     // Handle Facebook login
                   },
@@ -101,11 +98,11 @@ class _SigninScreenState extends State<SigninScreen> {
                   height: 50,
                   backgroundColor: Colors.grey.shade300,
                   textColor: Colors.black,
-                  icon: Icons.facebook,
                 ),
                 const SizedBox(height: 10),
 
                 CustomButtonWithLogo(
+                  assetPath: "assets/icons/email.svg",
                   onTap: () {
                     // Handle Email login
                   },
@@ -113,7 +110,6 @@ class _SigninScreenState extends State<SigninScreen> {
                   height: 50,
                   backgroundColor: Colors.grey.shade300,
                   textColor: Colors.black,
-                  icon: Icons.email,
                 ),
               ],
             ),

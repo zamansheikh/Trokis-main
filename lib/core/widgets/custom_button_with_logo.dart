@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CustomButtonWithLogo extends StatelessWidget {
   final VoidCallback onTap;
@@ -7,7 +8,6 @@ class CustomButtonWithLogo extends StatelessWidget {
   final Color textColor;
   final double height;
   final IconData? icon;
-  final bool isAsset;
   final String? assetPath;
 
   const CustomButtonWithLogo({
@@ -18,7 +18,6 @@ class CustomButtonWithLogo extends StatelessWidget {
     this.textColor = Colors.white,
     this.height = 50,
     this.icon,
-    this.isAsset = false,
     this.assetPath,
   });
 
@@ -35,11 +34,22 @@ class CustomButtonWithLogo extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (isAsset && assetPath != null)
-              Image.asset(assetPath!, height: 24, width: 24),
-            if (!isAsset && icon != null) Icon(icon, color: textColor),
-            if ((isAsset && assetPath != null) || icon != null)
-              const SizedBox(width: 8),
+            if (assetPath != null && assetPath!.contains(".svg"))
+              SvgPicture.asset(
+                assetPath!,
+                height: 24,
+                width: 24,
+              ),
+            if (assetPath != null && assetPath!.contains(".png"))
+              Image.asset(
+                assetPath!,
+                height: 24,
+                width: 24,
+              ),
+            if (icon != null) Icon(icon, color: textColor),
+            const SizedBox(
+              width: 8,
+            ),
             Text(
               text,
               style: TextStyle(

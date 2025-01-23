@@ -1,6 +1,5 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:trokis/core/exports/exports.dart';
-import 'package:trokis/presentations/screens/user/user_home/home_widget/shipping_widget.dart';
 
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({super.key});
@@ -19,14 +18,18 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           children: [
             Row(
               children: [
-                const SizedBox(width: 24,),
+                const SizedBox(
+                  width: 24,
+                ),
                 Image.asset(
                   "assets/images/app_logo.png",
                   height: 70,
                 ),
                 const Spacer(),
                 SvgPicture.asset("assets/icons/notification.svg"),
-                const SizedBox(width: 26,),
+                const SizedBox(
+                  width: 26,
+                ),
               ],
             ),
             Expanded(

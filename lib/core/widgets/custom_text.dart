@@ -48,7 +48,8 @@ class CustomText extends StatelessWidget {
         overflow: textOverflow ?? TextOverflow.ellipsis,
         style: TextStyle(
           fontSize: fontsize ?? 14.h,
-          decorationColor: AppColors.backgroundColor,
+          // TODO: I changed this font color to later check on
+          decorationColor: AppColors.primaryColor,
           fontFamily: fontName ?? "Lora",
           fontWeight: fontWeight,
           color: color ?? Colors.black,

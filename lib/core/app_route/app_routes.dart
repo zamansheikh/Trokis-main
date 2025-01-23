@@ -20,12 +20,12 @@ class AppRoutes {
 
   static List<GetPage> page = [
     GetPage(name: splashScreen, page: () => const SplashScreen()),
-    GetPage(name: onboardScreen, page: () => OnboardScreen()),
-    GetPage(name: signUpScreen, page: () => SignupScreen()),
-    GetPage(name: signinScreen, page: () => SigninScreen()),
-    GetPage(name: signInWithEmail, page: () => SignInWithEmailScreen()),
-    GetPage(name: otpVerifyScreen, page: () => OTPVerifyScreen()),
-    GetPage(name: userHomeScreen, page: () => UserHomeScreen()),
-    GetPage(name: bottomNavBar, page: () => BottomNavBar()),
+    GetPage(name: onboardScreen, page: () => const OnboardScreen()),
+    GetPage(name: signUpScreen, page: () => const SignupScreen()),
+    GetPage(name: signinScreen, page: () => const SigninScreen()),
+    GetPage(name: signInWithEmail, page: () => const SignInWithEmailScreen()),
+    GetPage(name: otpVerifyScreen, page: () => const OTPVerifyScreen()),
+    GetPage(name: userHomeScreen, page: () => const UserHomeScreen()),
+    GetPage(name: bottomNavBar, page: () => const BottomNavBar()),
   ];
 }

@@ -40,18 +40,32 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: padding,
-      child: ElevatedButton(
-        onPressed: isNetworkNeed == true ? _handleOnPressed : onTap,
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4.r),
+      // child: ElevatedButton(
+      //   onPressed: isNetworkNeed == true ? _handleOnPressed : onTap,
+      //   style: ElevatedButton.styleFrom(
+      //     shape: RoundedRectangleBorder(
+      //       borderRadius: BorderRadius.circular(4.r),
+      //     ),
+      //     backgroundColor: color ?? AppColors.primaryColor,
+      //     minimumSize: Size(width ?? Get.width, height ?? 48.h),
+      //   ),
+      //   child: loading ? _buildLoadingIndicator() : _buildButtonText(),
+      // ),
+      child: Container(
+        width: width ?? double.infinity,
+        height: height ?? 50,
+        decoration: BoxDecoration(
+          color: color ?? AppColors.primaryColor,
+          border: Border.all(
+            color: Color(
+              0x33333333,
+            ),
           ),
-          backgroundColor: color ?? AppColors.primaryColor,
-          minimumSize: Size(width ?? Get.width, height ?? 48.h),
+          borderRadius: BorderRadius.circular(12)
         ),
-        child: loading
-            ? _buildLoadingIndicator()
-            : _buildButtonText(),
+        child: Center(
+          child: loading ? _buildLoadingIndicator() : _buildButtonText(),
+        ),
       ),
     );
   }
@@ -71,7 +85,12 @@ class CustomButton extends StatelessWidget {
   Widget _buildButtonText() {
     return Text(
       text,
-      style: textStyle ?? const TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontFamily: "Lore"),
+      style: textStyle ??
+          TextStyle(
+              fontFamily: "Lora",
+              fontWeight: FontWeight.w400,
+              color: color == null ? Colors.white : AppColors.primaryColor,
+              fontSize: 18),
     );
   }
 }

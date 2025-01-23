@@ -1,6 +1,5 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:trokis/core/exports/exports.dart';
-import 'package:trokis/presentations/screens/user/user_home/user_home_screen.dart';
 import 'package:trokis/presentations/screens/user/user_service/user_service.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -50,7 +49,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 30),
+      padding: const EdgeInsets.only(bottom: 50),
       child: Container(
         height: 65,
         decoration: BoxDecoration(
@@ -58,44 +57,34 @@ class CustomBottomNavigationBar extends StatelessWidget {
           borderRadius: BorderRadius.circular(50),
         ),
         margin: const EdgeInsets.symmetric(
-            horizontal: 24), // Margin from screen edges
-        // padding: const EdgeInsets.symmetric(vertical: 10), // Inner padding
+            horizontal: 24),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 12,
           children: [
             _buildNavItem(
-              context,
               iconPath: "assets/icons/nav_home.svg",
               label: "Home",
-              isLabelHidden: true,
               index: 0,
             ),
             _buildNavItem(
-              context,
               iconPath: "assets/icons/nav5.svg",
-              label: "Profile",
-              isLabelHidden: true,
+              label: "Service",
               index: 1,
             ),
             _buildNavItem(
-              context,
               iconPath: "assets/icons/nav4.svg",
-              label: "Favorite",
-              isLabelHidden: true,
+              label: "Chat",
               index: 2,
             ),
             _buildNavItem(
-              context,
               iconPath: "assets/icons/nav3.svg",
-              label: "Add",
-              isLabelHidden: true,
+              label: "Activity",
               index: 3,
             ),
             _buildNavItem(
-              context,
               iconPath: "assets/icons/nav2.svg",
-              label: "Search",
-              isLabelHidden: true,
+              label: "Profile",
               index: 4,
             ),
           ],
@@ -104,12 +93,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
     );
   }
 
-  Widget _buildNavItem(
-    BuildContext context, {
+  Widget _buildNavItem({
     required String iconPath,
     required String label,
     required int index,
-    bool isLabelHidden = false,
   }) {
     return GestureDetector(
       onTap: () => onTap(index),

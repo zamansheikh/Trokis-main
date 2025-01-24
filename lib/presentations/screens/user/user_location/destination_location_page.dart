@@ -1,5 +1,9 @@
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:trokis/core/app_route/app_routes.dart';
 import 'package:trokis/core/exports/exports.dart';
-import 'package:trokis/presentations/screens/user/user_location/item_details_page.dart';
+import 'package:trokis/core/widgets/dropdown_form_field.dart';
+import 'package:trokis/core/widgets/icon_form_field.dart';
 
 class DestinationLocationPage extends StatefulWidget {
   const DestinationLocationPage({super.key});
@@ -10,209 +14,141 @@ class DestinationLocationPage extends StatefulWidget {
 }
 
 class _DestinationLocationPageState extends State<DestinationLocationPage> {
+  List<String?> selectedFiles = [];
+
+  void pickFiles() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        allowMultiple: true, // Enables multiple file selection
+      );
+
+      if (result != null) {
+        // Get the file paths
+        List<String?> files = result.paths;
+        setState(() {
+          selectedFiles = files;
+        });
+      }
+    } catch (e) {
+      print("File picking error: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         forceMaterialTransparency: true,
         centerTitle: true,
         automaticallyImplyLeading: true,
-        title: CustomText(
-          text: "Destination Location",
-          fontsize: 20,
+        leading: GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: Icon(
+            Icons.arrow_back_ios,
+          ),
+        ),
+        title: Text(
+          "Destination Location",
+          style: TextStyle(
+            fontFamily: "Lora",
+            fontSize: 18,
+          ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            IconFormField(
-              hintText: 'Starting Location',
-              icon: Icons.location_on_outlined,
-            ),
-
-            // Dropdown Form Fields
-            DropdownFormField(
-              onChanged: (p0) {},
-              hintText: 'Location Type',
-              items: ['House', 'Apartment', 'Office', 'Other'],
-            ),
-            DropdownFormField(
-              onChanged: (p0) {},
-              hintText: 'Floor Level',
-              items: ['Ground Floor', '1st Floor', '2nd Floor', '3rd Floor'],
-            ),
-            DropdownFormField(
-              onChanged: (p0) {},
-              hintText: 'Is There An Elevator?',
-              items: ['Yes', 'No'],
-            ),
-            DropdownFormField(
-              onChanged: (p0) {},
-              hintText: 'Choose Parking Type',
-              items: ['Street', 'Garage', 'Driveway', 'Lot'],
-            ),
-
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 24),
-              width: double.infinity,
-              height: 56,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Navigate to the next page
-                  Get.to(() => ItemDetailsPage());
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: SingleChildScrollView(
+            child: Column(
+              spacing: 10,
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Hero(
+                  tag: "map",
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          "assets/images/map.png",
+                          fit: BoxFit.cover,
+                          height: MediaQuery.of(context).size.width,
+                        ),
+                      ),
+                      SvgPicture.asset("assets/icons/red_pin.svg"),
+                    ],
                   ),
                 ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Next',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    Icon(Icons.chevron_right, size: 24),
+                const SizedBox(height: 10),
+                IconFormField(
+                  hintText: 'Destination Location',
+                  iconPath: "assets/icons/location.svg",
+                ),
+                DropdownFormField(
+                  onChanged: (p0) {},
+                  hintText: 'Location Type',
+                  items: [
+                    'House',
+                    'Apartment',
+                    'Office/Retail Space',
+                    'Supermarket Chain/Mall',
+                    'Farm House',
+                    'Other'
                   ],
                 ),
-              ),
+                DropdownFormField(
+                  onChanged: (p0) {},
+                  hintText: 'Floor Level',
+                  items: [
+                    'Ground Floor',
+                    '1st Floor',
+                    '2nd Floor',
+                    '3rd Floor'
+                  ],
+                  iconPath: "assets/icons/arrow_updown.svg",
+                ),
+                DropdownFormField(
+                  onChanged: (p0) {},
+                  hintText: 'Is There An Elevator?',
+                  items: [
+                    'Freight Elevator',
+                    'Normal Elevator',
+                    'No Elevator',
+                    'First Floor',
+                    'Farm House',
+                    'Stairs Are Wide',
+                    'Stairs Narrow'
+                  ],
+                ),
+                DropdownFormField(
+                  onChanged: (p0) {},
+                  hintText: 'Choose Parking Type',
+                  items: ['Street', 'Garage', 'Driveway', 'Lot'],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                CustomButton(
+                  onTap: () {
+                    Get.toNamed(AppRoutes.movingDestinationLocation);
+                  },
+                  isNetworkNeed: false,
+                  text: "Next",
+                  tailingIcon: "assets/icons/next.svg",
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// Custom Form Field with Icon
-class IconFormField extends StatelessWidget {
-  final String hintText;
-  final IconData icon;
-  final VoidCallback? onTap;
-  final TextEditingController? controller;
-
-  const IconFormField({
-    super.key,
-    required this.hintText,
-    required this.icon,
-    this.onTap,
-    this.controller,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 4,
-            offset: const Offset(0, 1),
-          ),
-        ],
-      ),
-      child: TextFormField(
-        controller: controller,
-        onTap: onTap,
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: const TextStyle(
-            color: Colors.grey,
-            fontSize: 16,
-          ),
-          suffixIcon: Icon(
-            icon,
-            color: Colors.grey,
-            size: 20,
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 16,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-          filled: true,
-          fillColor: Colors.white,
-        ),
-      ),
-    );
-  }
-}
-
-// Custom Dropdown Form Field
-class DropdownFormField extends StatelessWidget {
-  final String hintText;
-  final List<String> items;
-  final String? value;
-  final Function(String?)? onChanged;
-
-  const DropdownFormField({
-    super.key,
-    required this.hintText,
-    required this.items,
-    this.value,
-    this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 4,
-            offset: const Offset(0, 1),
-          ),
-        ],
-      ),
-      child: DropdownButtonFormField<String>(
-        value: value,
-        hint: Text(
-          hintText,
-          style: const TextStyle(
-            color: Colors.grey,
-            fontSize: 16,
           ),
         ),
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 16,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-          filled: true,
-          fillColor: Colors.white,
-        ),
-        items: items.map((String item) {
-          return DropdownMenuItem(
-            value: item,
-            child: Text(item),
-          );
-        }).toList(),
-        onChanged: onChanged,
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'package:flutter_svg/svg.dart';
+
 import '../../controllers/network_connection.dart';
 import '../exports/exports.dart';
 
@@ -13,6 +15,7 @@ class CustomButton extends StatelessWidget {
     this.width,
     this.height,
     this.isNetworkNeed = true,
+    this.tailingIcon,
   });
 
   final Function() onTap;
@@ -22,6 +25,7 @@ class CustomButton extends StatelessWidget {
   final double? height;
   final double? width;
   final Color? color;
+  final String? tailingIcon;
   final EdgeInsetsGeometry padding;
   final TextStyle? textStyle;
 
@@ -40,39 +44,42 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: padding,
-      // child: ElevatedButton(
-      //   onPressed: isNetworkNeed == true ? _handleOnPressed : onTap,
-      //   style: ElevatedButton.styleFrom(
-      //     shape: RoundedRectangleBorder(
-      //       borderRadius: BorderRadius.circular(4.r),
-      //     ),
-      //     backgroundColor: color ?? AppColors.primaryColor,
-      //     minimumSize: Size(width ?? Get.width, height ?? 48.h),
-      //   ),
-      //   child: loading ? _buildLoadingIndicator() : _buildButtonText(),
-      // ),
       child: GestureDetector(
         onTap: isNetworkNeed == true ? _handleOnPressed : onTap,
-        child: Container(
-          width: width ?? double.infinity,
-          height: height ?? 50,
-          decoration: BoxDecoration(
-              color: color ?? AppColors.primaryColor,
-              border: Border.all(
-                color: Color(
-                  0x33333333,
+        child: Stack(
+          children: [
+            Container(
+              width: width ?? double.infinity,
+              height: height ?? 50,
+              decoration: BoxDecoration(
+                  color: color ?? AppColors.primaryColor,
+                  border: Border.all(
+                    color: Color(
+                      0x33333333,
+                    ),
+                  ),
+                  borderRadius: BorderRadius.circular(12)),
+              child: Center(
+                child: loading ? _buildLoadingIndicator() : _buildButtonText(),
+              ),
+            ),
+            if (tailingIcon != null)
+              Positioned(
+                right: 24,
+                top: 0,
+                bottom: 0,
+                child: SvgPicture.asset(
+                  tailingIcon!,
+                  height: 24,
+                  width: 24,
                 ),
               ),
-              borderRadius: BorderRadius.circular(12)),
-          child: Center(
-            child: loading ? _buildLoadingIndicator() : _buildButtonText(),
-          ),
+          ],
         ),
       ),
     );
   }
 
-  // Method for the loading indicator
   Widget _buildLoadingIndicator() {
     return SizedBox(
       height: 20.h,
@@ -83,7 +90,6 @@ class CustomButton extends StatelessWidget {
     );
   }
 
-  // Method to build the button text
   Widget _buildButtonText() {
     return Text(
       text,

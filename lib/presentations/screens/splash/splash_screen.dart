@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:trokis/core/app_route/app_routes.dart';
 import 'package:trokis/core/exports/exports.dart';

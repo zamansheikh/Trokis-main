@@ -118,7 +118,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
               child: Center(
                 child: SvgPicture.asset(
                   iconPath,
-                  color: index == selectedIndex ? Colors.black : Colors.white,
+                  colorFilter: ColorFilter.mode(
+                    index == selectedIndex ? Colors.black : Colors.white,
+                    BlendMode.srcIn,
+                  ),
                   height: 24,
                   width: 24,
                 ),

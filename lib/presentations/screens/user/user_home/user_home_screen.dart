@@ -1,4 +1,5 @@
 import 'package:flutter_svg/svg.dart';
+import 'package:trokis/core/app_route/app_routes.dart';
 import 'package:trokis/core/exports/exports.dart';
 
 class UserHomeScreen extends StatefulWidget {
@@ -38,12 +39,15 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          "assets/images/map.png",
-                          fit: BoxFit.fitHeight,
-                          height: MediaQuery.of(context).size.height * 0.58,
+                      Hero(
+                        tag: "map",
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            "assets/images/map.png",
+                            fit: BoxFit.fitHeight,
+                            height: MediaQuery.of(context).size.height * 0.58,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 32),
@@ -53,7 +57,9 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                           _drawIconBox(
                             iconPath: "assets/icons/moving.svg",
                             name: "Moving",
-                            onTap: () {},
+                            onTap: () {
+                              Get.toNamed(AppRoutes.movingStartingLocation);
+                            },
                           ),
                           const SizedBox(width: 8),
                           _drawIconBox(

@@ -84,7 +84,7 @@ class _MapViewWidgetState extends State<MapViewWidget> {
             _currentDriverLocation!.latitude + 0.011,
             _currentDriverLocation!.longitude + 0.011,
           ));
-          print('Delivery Status Updated to $_deliveryStatus');
+          debugPrint('Delivery Status Updated to $_deliveryStatus');
         }
       }
     });
@@ -144,7 +144,7 @@ class _MapViewWidgetState extends State<MapViewWidget> {
         ));
       });
     } else {
-      print('Failed to fetch route');
+      debugPrint('Failed to fetch route');
     }
   }
 

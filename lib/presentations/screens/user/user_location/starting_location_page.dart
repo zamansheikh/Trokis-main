@@ -1,9 +1,9 @@
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:trokis/core/app_route/app_routes.dart';
 import 'package:trokis/core/exports/exports.dart';
 import 'package:trokis/core/widgets/dropdown_form_field.dart';
 import 'package:trokis/core/widgets/icon_form_field.dart';
+import 'package:trokis/core/widgets/map_widget.dart';
 
 class StartingLocationPage extends StatefulWidget {
   const StartingLocationPage({super.key});
@@ -67,22 +67,8 @@ class _StartingLocationPageState extends State<StartingLocationPage> {
                 const SizedBox(
                   height: 10,
                 ),
-                Hero(
-                  tag: "map",
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          "assets/images/map.png",
-                          fit: BoxFit.cover,
-                          height: MediaQuery.of(context).size.width,
-                        ),
-                      ),
-                      SvgPicture.asset("assets/icons/red_pin.svg"),
-                    ],
-                  ),
+                MapWidget(
+                  showPin: true,
                 ),
                 const SizedBox(height: 10),
                 IconFormField(

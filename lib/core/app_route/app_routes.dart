@@ -6,6 +6,8 @@ import 'package:trokis/presentations/screens/user/user_auth/signup_screen.dart';
 import 'package:trokis/presentations/screens/user/user_home/user_home_screen.dart';
 import 'package:trokis/presentations/screens/user/user_location/destination_location_page.dart';
 import 'package:trokis/presentations/screens/user/user_location/starting_location_page.dart';
+import 'package:trokis/presentations/screens/user/user_moving/item_details.dart';
+import 'package:trokis/presentations/screens/user/user_moving/map_screen.dart';
 import '../../presentations/screens/onboarding/onboard_screen.dart';
 import '../../presentations/screens/splash/splash_screen.dart';
 
@@ -20,6 +22,8 @@ class AppRoutes {
   static String bottomNavBar = "/bottomNavBar";
   static String movingStartingLocation = "/moving/starting_location";
   static String movingDestinationLocation = "/moving/destination_location";
+  static String movingMapView = "/moving/map_view";
+  static String movingItemDetails = "/moving/item_details";
 
   static List<GetPage> page = [
     GetPage(name: splashScreen, page: () => const SplashScreen()),
@@ -29,7 +33,12 @@ class AppRoutes {
     GetPage(name: otpVerifyScreen, page: () => const OTPVerifyScreen()),
     GetPage(name: userHomeScreen, page: () => const UserHomeScreen()),
     GetPage(name: bottomNavBar, page: () => const BottomNavBar()),
-    GetPage(name: movingStartingLocation, page: ()=> const StartingLocationPage()),
-    GetPage(name: movingDestinationLocation, page: ()=> const DestinationLocationPage()),
+    GetPage(
+        name: movingStartingLocation, page: () => const StartingLocationPage()),
+    GetPage(
+        name: movingDestinationLocation,
+        page: () => const DestinationLocationPage()),
+    GetPage(name: movingMapView, page: () => const MapScreen()),
+    GetPage(name: movingItemDetails, page: () => const ItemDetails()),
   ];
 }
